@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+"http://struts.apache.org/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+	<data-sources>
+		<data-source key="bank">
+			<set-property property="description" value=" Login Validation Database" />
+			<set-property property="driverClass" value="org.postgresql.Driver" />
+			<set-property property="maxCount" value="10" />
+			<set-property property="minCount" value="2" />
+			<set-property property="user" value="postgres" />
+			<set-property property="password" value="zoho@2019" />
+			<set-property property="url"
+				value="jdbc:postgresql://localhost/bank" />
+		</data-source>
+	</data-sources>
+	<form-beans>
+		<form-bean name="signin" type="com.user.SigninActionForm"></form-bean>
+		<form-bean name="signup" type="com.user.SignupActionForm"></form-bean>
+		<form-bean name="moneytransfer" type="com.user.MoneyTransferForm"></form-bean>
+		<form-bean name="addbenifitary" type="com.user.AddBenifitaryForm"></form-bean>
+	</form-beans>
+
+	<action-mappings>
+		<action name="signin" path="/signin" type="com.user.SigninAction"
+			input="/signin.jsp">
+			<forward name="success" path="/dashboard.jsp" redirect="true" />
+			<forward name="failure" path="/signin.jsp" />
+		</action>
+		<action name="signup" path="/signup" type="com.user.SignupAction"
+			input="/signup.jsp">
+			<forward name="success" path="/SignupSuccess.jsp" redirect="true" />
+			<forward name="failure" path="/signup.jsp" />
+		</action>
+		<action name="signout" path="/signout" type="com.user.SignoutAction">
+			<forward name="success" path="/" redirect="true" />
+		</action>
+		<action path="/fetchbalance" type="com.user.AccountBalance">
+			<forward name="success" path="/balance.jsp" />
+			<forward name="failure" path="/failure.jsp" />
+		</action>
+		<action name="addbenifitary" path="/addBenifitary" type="com.user.AddBenifitary"
+			input="/addBenifitary.jsp">
+			<forward name="success" path="/myBenifitaryAccounts.do"
+				redirect="true" />
+			<forward name="failed" path="/addBenifitary.jsp" />
+			<forward name="failure" path="/failure.jsp" />
+		</action>
+		<action path="/myBenifitaryAccounts" type="com.user.MyBenifitaryAccounts">
+			<forward name="success" path="/myBenifitaryAccounts.jsp" />
+			<forward name="failure" path="/failure.jsp" />
+		</action>
+		<action path="/moneyTransferPage" type="com.user.MyBenifitaryAccounts">
+			<forward name="success" path="/moneytransfer.jsp" />
+			<forward name="failure" path="/failure.jsp" />
+		</action>
+		<action name="moneytransfer" path="/moneytransfer" type="com.user.MoneyTransfer"
+			input="/moneyTransferPage.do">
+			<forward name="success" path="/TransferSuccess.jsp" redirect="true" />
+			<forward name="failed" path="/moneyTransferPage.do" />
+			<forward name="failure" path="/failure.jsp" />
+		</action>
+		<action path="/viewtransactions" type="com.user.ViewTransactions">
+			<forward name="success" path="/viewtransactions.jsp" />
+			<forward name="session-expired" path="/sessionexpired.jsp"
+				redirect="true" />
+		</action>
+	</action-mappings>
+	<message-resources parameter="/com/user/ErrorMessages" />
+</struts-config>
